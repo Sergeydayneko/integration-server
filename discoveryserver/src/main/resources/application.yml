@@ -1,0 +1,27 @@
+server:
+  port: ${SERVER_PORT:5050}
+  max-http-header-size: 10000000
+
+spring:
+  application:
+    name: ${REGISTRY_NAME:eurika-registry}
+  profiles:
+    active: ${ENV_PROFILE:dev}
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+  instance:
+    hostname: ${ENV_HOST:localhost}
+
+logging:
+  file:
+    name: eurika-service.log
+    max-history: 10
+    max-size: 10MB
+  pattern:
+    console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
+  level:
+    org.springframework: ${LOG_LEVEL_SPRING:DEBUG}
+    root: INFO
