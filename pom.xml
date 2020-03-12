@@ -13,6 +13,7 @@
     <version>1.0</version>
     <name>cloudservice</name>
     <description>Cloud service</description>
+    <packaging>pom</packaging>
 
     <properties>
         <java.version>11</java.version>
@@ -21,8 +22,6 @@
     </properties>
 
     <dependencies>
-
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
@@ -53,14 +52,4 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
-
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>
