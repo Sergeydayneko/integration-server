@@ -12,6 +12,7 @@
     <version>1.0</version>
     <name>discoveryserver</name>
     <description>discoveryserver</description>
+    <packaging>jar</packaging>
 
     <dependencies>
         <dependency>
@@ -19,4 +20,13 @@
             <artifactId>spring-cloud-starter-netflix-eureka-server</artifactId>
         </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>
