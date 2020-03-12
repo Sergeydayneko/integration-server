@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:5050}
+  port: ${EURIKA_SERVER_PORT:5050}
   max-http-header-size: 10000000
 
 spring:
@@ -9,11 +9,14 @@ spring:
     active: ${ENV_PROFILE:dev}
 
 eureka:
+  instance:
+    hostname: ${EURIKA_SERVER_HOST:localhost}
+    preferIpAddress: true
   client:
     register-with-eureka: false
     fetch-registry: false
-  instance:
-    hostname: ${ENV_HOST:localhost}
+    service-url:
+      default-zone: http://${eureka.instance.hostname}:${server.port}/eureka
 
 logging:
   file:
