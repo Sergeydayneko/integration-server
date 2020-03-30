@@ -6,7 +6,6 @@
         <groupId>ru.dayneko</groupId>
         <artifactId>cloud-service</artifactId>
         <version>1.0</version>
-        <relativePath/>
     </parent>
     <artifactId>discoveryserver</artifactId>
     <version>1.0</version>
