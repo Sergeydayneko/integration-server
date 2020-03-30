@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServerConfigq {
+public class ServerConfig {
 
     @Immutable
     @NotNull
@@ -26,5 +26,5 @@ public class ServerConfigq {
     private String  serviceName;
 
     @Nullable
-    private String serviceDescription;
+    private String serviceDescription = "";
 }
