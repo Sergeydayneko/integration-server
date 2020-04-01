@@ -11,53 +11,56 @@ import ru.dayneko.gateway.model.ServerConfig;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.List;
-import java.util.Map;
-import java.util.function.Function;
-import java.util.stream.Collectors;
+import java.util.Set;
+
+import static java.util.stream.Collectors.toSet;
 
 @Configuration
 @Slf4j
 public class ServersConfigurations {
 
     @Bean
-    ServerConfig initStoreService(
+    ServerConfig storeService(
             @Value("${gateway.servers.store.url}") String url,
             @Value("${gateway.servers.store.port}") String port,
+            @Value("${gateway.servers.store.postfix}") String postfix,
             @Value("${gateway.servers.store.name}") String serviceName,
-            @Value("${gateway.servers.store.desc}") String desc) {
+            @Value("${gateway.servers.store.desc}") String desc,
+            @Value("${gateway.intercept-urls.store}") String urn) {
 
-        checkServiceConfigForNotNullable(url, port, serviceName);
+        checkServiceConfigForNotNullable(url, port, postfix, serviceName, urn);
 
-        return new ServerConfig(url, port, serviceName, desc);
+        return new ServerConfig(url, port, postfix, serviceName, urn, desc);
     }
 
     @Bean
-    ServerConfig initProductService(
+    ServerConfig productService(
             @Value("${gateway.servers.product.url}") String url,
             @Value("${gateway.servers.product.port}") String port,
+            @Value("${gateway.servers.product.postfix}") String postfix,
             @Value("${gateway.servers.product.name}") String serviceName,
-            @Value("${gateway.servers.product.desc}") String desc) {
+            @Value("${gateway.servers.product.desc}") String desc,
+            @Value("${gateway.intercept-urls.product}") String urn) {
 
-        checkServiceConfigForNotNullable(url, port, serviceName);
+        checkServiceConfigForNotNullable(url, port, postfix, serviceName, urn);
 
-        return new ServerConfig(url, port, serviceName, desc);
+        return new ServerConfig(url, port, postfix, serviceName, urn, desc);
     }
 
     @Bean
-    @DependsOn({"initStoreService", "initProductService"})
-    public Map<String, ServerConfig> initConfigMapBean(@NotNull @NotEmpty List<ServerConfig> configs) {
-        log.debug("Configs of servers are: {}", configs);
+    @DependsOn({"storeService", "productService"})
+    public Set<String> serversList(@NotNull @NotEmpty List<ServerConfig> configs) {
+        log.debug("Configuring list of services names");
 
-        return configs.stream().collect(Collectors.toMap(ServerConfig::getServiceName, Function.identity()));
+        return configs.stream().map(ServerConfig::getServiceName).collect(toSet());
     }
 
-    private void checkServiceConfigForNotNullable(String url, String port, String serviceName) {
-        log.debug("Checking {} for nullable args. Url: {} ||| Port: {}", serviceName, url, port);
+    private void checkServiceConfigForNotNullable(String url, String port, String postfix, String serviceName, String urn) {
+        log.debug("Checking {} for nullable args. Url: {} ||| Port: {} ||| Urn: ", serviceName, url, port, urn);
 
-        if ((null == url) || (null == port) || (null == serviceName)) {
+        if ((null == url) || (null == port) || (null == postfix) || (null == serviceName) || (null == urn)) {
             throw new BeanDefinitionException(serviceName);
         }
-
     }
 
 }

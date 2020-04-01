@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class ServerConfig {
+public final class ServerConfig {
 
     @Immutable
     @NotNull
-    private String url;
+    private String uri;
 
     @Immutable
     @NotNull
@@ -23,8 +23,20 @@ public class ServerConfig {
 
     @Immutable
     @NotNull
+    private String servicePostfix;
+
+    @Immutable
+    @NotNull
     private String  serviceName;
+
+    @Immutable
+    @NotNull
+    private String serviceUrn;
 
     @Nullable
     private String serviceDescription = "";
+
+    public String getFullUrn() {
+        return "http://" + uri + ":" + port + servicePostfix;
+    }
 }

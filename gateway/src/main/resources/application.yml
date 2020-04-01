@@ -3,19 +3,28 @@ server:
 
 spring:
   application:
+    version: v1
     name: gateway-server
 
 gateway:
+  tail-path: /**
+  tail-regex: /(?<path>.*)
+  tail-regex-replacement: /$\{path}
+  intercept-urls:
+    store: ${STORE_POINT_SERVICE_INTERCEPT_URL:/api/${spring.application.version}/store}
+    product: ${PRODUCT_POINT_SERVICE_INTERCEPT_URL:/api/${spring.application.version}/product}
   servers:
     store:
       url: ${STORE_POINT_SERVICE_URL:localhost}
       port: ${STORE_POINT_SERVICE_PORT:4041}
-      name: ${STORE_POINT_SERVICE_NAME:store-service}
+      postfix: ${STORE_POINT_SERVICE_PORT:/store/}
+      name: ${STORE_POINT_SERVICE_NAME:storeService}
       desc: ${STORE_POINT_SERVICE_DESC:empty}
     product:
       url: ${PRODUCT_SERVICE_URL:localhost}
       port: ${PRODUCT_SERVICE_PORT:4042}
-      name: ${PRODUCT_SERVICE_NAME:product-service}
+      postfix: ${PRODUCT_SERVICE_PORT:/product/}
+      name: ${PRODUCT_SERVICE_NAME:productService}
       desc: ${PRODUCT_SERVICE_DESC:empty}
 
 eureka:
