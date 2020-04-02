@@ -28,6 +28,7 @@ public class GatewayConfig {
     @Value("${gateway.tail-regex-replacement}")
     private String globalTailRegexReplacement;
 
+    /* Current gateway is standard for every api, so it initializes through cycle */
     @Bean
     public RouteLocator gatewayRoutesConfig(RouteLocatorBuilder routeLocatorBuilder) {
         RouteLocatorBuilder.Builder routes = routeLocatorBuilder.routes();

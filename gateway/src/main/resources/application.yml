@@ -39,6 +39,27 @@ eureka:
     service-url:
         defaultZone: http://${EURIKA_SERVER_HOST:localhost}:${EURIKA_SERVER_PORT:5050}/eureka
 
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      failureRateThreshold: ${GATEWAY_FAILURE_RATE:10}
+      slowCallRateThreshold: ${GATEWAY_SLOW_CALL_RATE:10}
+      slowCallDurationThreshold: ${GATEWAY_SLOW_DURATION:2000ms}
+#      slidingWindowType: TIME_BASED
+#      slidingWindowSize: 100
+      minimumNumberOfCalls: ${GATEWAY_MIN_CALL_NUMBER:10}
+      waitDurationInOpenState: ${GATEWAY_WAI_DURATION:5s}
+      permittedNumberOfCallsInHalfOpenState: ${GATEWAY_PERM_CALL_HALF_STATE:20}
+      automaticTransitionFromOpenToHalfOpenEnabled: ${GATEWAY_TRANSITION_AUTO:true}
+      recordExceptions:
+        - java.net.ConnectException
+        - java.lang.NullPointerException
+        - org.springframework.web.client.HttpServerErrorException
+        - java.util.concurrent.TimeoutException
+
 logging:
+  pattern:
+    consoleg: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"
   level:
     ROOT: ${STORE_POINT_ROOT_LOG_LEVEL:INFO}
