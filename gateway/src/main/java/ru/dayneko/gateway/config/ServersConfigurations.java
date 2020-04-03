@@ -20,7 +20,7 @@ import static java.util.stream.Collectors.toSet;
 public class ServersConfigurations {
 
     @Bean
-    ServerConfig storeService(
+    ServerConfig storeServiceApp(
             @Value("${gateway.servers.store.url}") String url,
             @Value("${gateway.servers.store.port}") String port,
             @Value("${gateway.servers.store.postfix}") String postfix,
@@ -34,7 +34,7 @@ public class ServersConfigurations {
     }
 
     @Bean
-    ServerConfig productService(
+    ServerConfig productServiceApp(
             @Value("${gateway.servers.product.url}") String url,
             @Value("${gateway.servers.product.port}") String port,
             @Value("${gateway.servers.product.postfix}") String postfix,
@@ -48,7 +48,7 @@ public class ServersConfigurations {
     }
 
     @Bean
-    @DependsOn({"storeService", "productService"})
+    @DependsOn({"storeServiceApp", "productServiceApp"})
     public Set<String> serversList(@NotNull @NotEmpty List<ServerConfig> configs) {
         log.debug("Configuring list of services names");
 

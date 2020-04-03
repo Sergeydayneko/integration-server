@@ -1,11 +1,16 @@
+# Service config
 server:
   port: ${GATEWAY_PORT:6060}
-
 spring:
   application:
     version: v1
     name: gateway-server
+  cloud:
+    gateway:
+      loadbalancer:
+        use404: true
 
+# Gateway config
 gateway:
   tail-path: /**
   tail-regex: /(?<path>.*)
@@ -18,15 +23,35 @@ gateway:
       url: ${STORE_POINT_SERVICE_URL:localhost}
       port: ${STORE_POINT_SERVICE_PORT:4041}
       postfix: ${STORE_POINT_SERVICE_PORT:/store/}
-      name: ${STORE_POINT_SERVICE_NAME:storeService}
+      name: ${STORE_POINT_SERVICE_NAME:storeServiceApp}
       desc: ${STORE_POINT_SERVICE_DESC:empty}
     product:
-      url: ${PRODUCT_SERVICE_URL:localhost}
+      url: ${PRODUCT_SERVICE_URL:lb://localhost}
       port: ${PRODUCT_SERVICE_PORT:4042}
       postfix: ${PRODUCT_SERVICE_PORT:/product/}
-      name: ${PRODUCT_SERVICE_NAME:productService}
+      name: ${PRODUCT_SERVICE_NAME:productServiceApp}
       desc: ${PRODUCT_SERVICE_DESC:empty}
 
+# load balance config
+ribbon:
+  eureka:
+    enabled: false
+
+storeServiceApp:
+  ribbon:
+    listOfServers: localhost:4041
+    ServerListRefreshInterval: 1000
+    retryableStatusCodes: 404, 500
+    MaxAutoRetriesNextServer: 1
+
+productServiceApp:
+  ribbon:
+    listOfServers: localhost:4042
+    ServerListRefreshInterval: 1000
+    retryableStatusCodes: 404, 500
+    MaxAutoRetriesNextServer: 1
+
+# Eureka config
 eureka:
   instance:
     prefer-ip-address: true
@@ -39,6 +64,7 @@ eureka:
     service-url:
         defaultZone: http://${EURIKA_SERVER_HOST:localhost}:${EURIKA_SERVER_PORT:5050}/eureka
 
+# Circuit breaker config
 resilience4j.circuitbreaker:
   configs:
     default:
@@ -58,6 +84,7 @@ resilience4j.circuitbreaker:
         - org.springframework.web.client.HttpServerErrorException
         - java.util.concurrent.TimeoutException
 
+# Logging config
 logging:
   pattern:
     consoleg: "%clr(%d{HH:mm:ss.SSS}){blue} %clr(---){faint} %clr([%15.15t]){yellow} %clr(:){red} %clr(%m){faint}%n"

@@ -36,7 +36,8 @@ public final class ServerConfig {
     @Nullable
     private String serviceDescription = "";
 
+    /* lb:// sets ribbon load balance on */
     public String getFullUrn() {
-        return "http://" + uri + ":" + port + servicePostfix;
+        return "lb://" + serviceName;
     }
 }
