@@ -10,7 +10,7 @@ spring:
 #        health:
         git:
           uri: ${CLOUD_CONFIG_SERVER:https://github.com/Sergeydayneko/config-server}
-          username: ${CLOUD_CONFIG_SERVER_LOGIN:sergeydayneko@mail.ru}
-          password: ${CLOUD_CONFIG_SERVER_PASSWORD:E9m7kj16}
+          username: ${CLOUD_CONFIG_SERVER_LOGIN}
+          password: ${CLOUD_CONFIG_SERVER_PASSWORD}
           clone-on-start: true
           skipSslValidation: true
