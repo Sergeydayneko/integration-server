@@ -1,13 +1,12 @@
 server:
-  port: 8888
+  port: ${CONFIG_SERVER_PORT:7070}
 
 spring:
   application:
-    name: config-server
+    name: integration-config-server
   cloud:
     config:
       server:
-#        health:
         git:
           uri: ${CLOUD_CONFIG_SERVER:https://github.com/Sergeydayneko/config-server}
           username: ${CLOUD_CONFIG_SERVER_LOGIN}
