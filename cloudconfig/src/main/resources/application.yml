@@ -1,11 +1,18 @@
 server:
   port: ${CONFIG_SERVER_PORT:7070}
 
+# Eureka/Rabbit
 spring:
   application:
     name: integration-config-server
+  rabbitmq:
+    host: ${RABBITMQ_HOST:localhostl}
+    port: ${RABBITMQ_USER_PORT:5672}
+    username: ${RABBITMQ_STANDARD_USERNAME:guest}
+    password: ${RABBITMQ_STANDARD_PASSWORD:guest}
   cloud:
     config:
+      label: master
       server:
         git:
           uri: ${CLOUD_CONFIG_SERVER:https://github.com/Sergeydayneko/config-server}
@@ -13,3 +20,11 @@ spring:
           password: ${CLOUD_CONFIG_SERVER_PASSWORD}
           clone-on-start: true
           skipSslValidation: true
+
+# Cloud bus
+management:
+  endpoints:
+    web:
+      exposure:
+        include: bus-refresh
+
