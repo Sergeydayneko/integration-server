@@ -32,11 +32,21 @@ gateway:
       name: ${PRODUCT_SERVICE_NAME:productServiceApp}
       desc: ${PRODUCT_SERVICE_DESC:empty}
 
+# Actuator tools
+management:
+  endpoints:
+    web:
+      exposure:
+        include: beans, health, routes, refresh
+  security:
+    enabled: ${SPRING_SECURITY_ENABLED:true}
+
 # load balance config
 ribbon:
   eureka:
     enabled: false
 
+# Servers settings
 storeServiceApp:
   ribbon:
     listOfServers: localhost:4041

@@ -27,4 +27,8 @@ logging:
     console: "%d{yyyy-MM-dd HH:mm:ss} %-5level %logger{36} - %msg%n"
   level:
     org.springframework: ${LOG_LEVEL_SPRING:DEBUG}
-    root: INFO
+    root: INFOc
+
+management:
+  security:
+    enabled: ${SPRING_SECURITY_ENABLED:true}

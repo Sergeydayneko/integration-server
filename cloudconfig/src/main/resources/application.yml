@@ -1,7 +1,7 @@
 server:
   port: ${CONFIG_SERVER_PORT:7070}
 
-# Eureka/Rabbit
+# Server/Rabbit
 spring:
   application:
     name: integration-config-server
@@ -12,7 +12,7 @@ spring:
     password: ${RABBITMQ_STANDARD_PASSWORD:guest}
   cloud:
     config:
-      label: develop-config
+      label: local-config
       server:
         git:
           uri: ${CLOUD_CONFIG_SERVER:https://github.com/Sergeydayneko/config-server}
@@ -20,7 +20,20 @@ spring:
           password: ${CLOUD_CONFIG_SERVER_PASSWORD}
           clone-on-start: true
           skipSslValidation: true
-#          searchPaths: develop
+          searchPaths: develop
+
+# Eureka config
+eureka:
+  instance:
+    prefer-ip-address: true
+    appname: config-server
+    lease-renewal-interval-in-seconds: ${RENEWAL_INTERVAL:20}
+    lease-expiration-duration-in-seconds: ${LEASE_EXPIRATION:40}
+  client:
+    fetch-registry: true
+    register-with-eureka: true
+    service-url:
+      defaultZone: http://${EURIKA_SERVER_HOST:localhost}:${EURIKA_SERVER_PORT:5050}/eureka
 
 # Cloud bus
 management:
