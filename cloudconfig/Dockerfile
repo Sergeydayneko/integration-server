@@ -4,8 +4,10 @@ ARG JAR_FILE=target/*.jar
 
 COPY ${JAR_FILE} app.jar
 
-ENV EURIKA_SERVER_HOST="18.219.140.164"
+# private virtual EC2
+ENV RABBITMQ_HOST="172.31.37.225" \
+    RABBITMQ_USER_PORT=5672
 
-EXPOSE 5050
+EXPOSE 7070
 
 ENTRYPOINT ["java", "-jar", "/app.jar"]
