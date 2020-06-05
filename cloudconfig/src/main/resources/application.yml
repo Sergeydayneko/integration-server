@@ -33,7 +33,7 @@ eureka:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://${EURIKA_SERVER_HOST:localhost}:${EURIKA_SERVER_PORT:5050}/eureka
+        defaultZone: http://${EURIKA_SERVER_HOST:localhost}:${EURIKA_SERVER_PORT:5050}/eureka
 
 # Cloud bus
 management:
